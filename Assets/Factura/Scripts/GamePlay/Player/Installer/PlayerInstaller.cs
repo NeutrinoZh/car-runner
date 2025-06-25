@@ -10,8 +10,8 @@ namespace Game
         
         public override void InstallBindings()
         {
-            Container.Bind<Transform>().FromInstance(transform).AsSingle();
-            Container.Bind<PlayerConfig>().FromInstance(_playerConfig).AsSingle();
+            Container.Bind<Transform>().FromInstance(transform);
+            Container.Bind<PlayerConfig>().FromInstance(_playerConfig);
             Container.Bind<IPlayerInput>().FromInstance(GetComponent<IPlayerInput>());
             
             Container.BindInterfacesAndSelfTo<PlayerModel>().AsSingle().NonLazy();

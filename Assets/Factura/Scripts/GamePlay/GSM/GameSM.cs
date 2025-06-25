@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Game
 {
-    public class GameStateMachine
+    public class GameSM
     {
         private readonly Dictionary<System.Type, IGameState> _states;
         private IGameState _activeState;
 
-        public GameStateMachine(Dictionary<System.Type, IGameState> states)
+        public GameSM(Dictionary<System.Type, IGameState> states)
         {
             _states = states;
         }

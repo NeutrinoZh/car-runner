@@ -12,6 +12,11 @@ namespace Game {
         
         public override void InstallBindings()
         {
+            SignalBusInstaller.Install(Container);
+            Container.DeclareSignal<PlayerSpawnedSignal>();
+
+            Container.Bind<PlayersList>().AsSingle();
+            
             Container
                 .Bind<InputControls>()
                 .AsSingle();
@@ -35,13 +40,20 @@ namespace Game {
 
         private void InstallGsm()
         {
-            var gsm = new GameStateMachine(new Dictionary<Type, IGameState>()
-            {
-                { typeof(BootstrapState), Container.Instantiate<BootstrapState>() },
-            });
+            Container
+                .Bind<Dictionary<System.Type, IGameState>>()
+                .FromMethod(ctx => new()
+                {
+                    { typeof(BootstrapState), Container.Instantiate<BootstrapState>() },
+                })
+                .WhenInjectedInto<GameSM>();
+            Container.Bind<GameSM>().AsSingle();
+        }
 
-            Container.Bind<GameStateMachine>().FromInstance(gsm).AsSingle();
-            gsm.Enter<BootstrapState>();
+        public override void Start()
+        {
+            base.Start();
+            Container.Resolve<GameSM>().Enter<BootstrapState>();
         }
     }
 }
