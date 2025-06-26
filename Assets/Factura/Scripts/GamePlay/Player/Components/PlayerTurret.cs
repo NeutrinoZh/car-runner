@@ -7,6 +7,8 @@ namespace Game
 {
     public class PlayerTurret : IInitializable, ITickable
     {
+        private const int k_zOffset = 4;
+        
         private readonly Transform _turret;
         private readonly IPlayerInput _playerInput;
         private readonly Camera _camera;
@@ -44,6 +46,7 @@ namespace Game
             
             var screenDirection = new Vector3(_playerInput.Direction.x, _playerInput.Direction.y, 15f);
             var worldPosition = _camera.ScreenToWorldPoint(screenDirection);
+            worldPosition.z -= k_zOffset;
             
             _direction = worldPosition - _turret.position;
             _direction.y = 0;
