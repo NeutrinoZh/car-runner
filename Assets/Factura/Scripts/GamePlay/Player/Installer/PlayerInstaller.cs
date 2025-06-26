@@ -16,6 +16,7 @@ namespace Game
             
             Container.Bind<PlayerConfig>().FromInstance(_playerConfig);
             Container.Bind<IPlayerInput>().FromInstance(GetComponent<IPlayerInput>());
+            Container.Bind<Animator>().FromInstance(GetComponent<Animator>());
             
             Container.BindInterfacesAndSelfTo<PlayerModel>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerMovement>().AsSingle().NonLazy();

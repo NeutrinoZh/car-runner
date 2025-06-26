@@ -19,10 +19,12 @@ namespace Game
         
         private readonly EnemyPool _pool;
         private readonly PlayersList _playerList;
+        private readonly GameSM _gameSM;
         
-        public EnemySpawner(EnemyPool pool, PlayersList playerList)
+        public EnemySpawner(EnemyPool pool, PlayersList playerList, GameSM gameSM)
         {
             _pool = pool;
+            _gameSM = gameSM;
             _playerList = playerList;
         }
         
@@ -41,6 +43,12 @@ namespace Game
 
             while (_running)
             {
+                if (!_gameSM.IsState<PlayState>())
+                {
+                    await Task.Delay(100);
+                    continue;
+                }
+
                 if (_spawnInterval < k_miniumSpawnInterval)
                     break;
                 
@@ -55,6 +63,12 @@ namespace Game
             
             while (_running)
             {
+                if (!_gameSM.IsState<PlayState>())
+                {
+                    await Task.Delay(100);
+                    continue;
+                }
+
                 Spawn();
                 await Task.Delay((int)(_spawnInterval * Time.timeScale));
             }

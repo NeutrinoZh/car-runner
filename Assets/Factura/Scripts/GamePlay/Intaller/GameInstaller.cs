@@ -14,21 +14,19 @@ namespace Game {
         [SerializeField] private Player _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private FollowingCamera _followingCamera;
+        [SerializeField] private MenuScreens _menuScreens;
         
         public override void InstallBindings()
         {
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<PlayerSpawnedSignal>();
 
-            Container.Bind<PlayersList>().AsSingle();
+            Container.Bind<GameSM>().AsSingle();
             
-            Container
-                .Bind<InputControls>()
-                .AsSingle();
-
-            Container
-                .Bind<FollowingCamera>()
-                .FromInstance(_followingCamera);
+            Container.Bind<PlayersList>().AsSingle();
+            Container.Bind<InputControls>().AsSingle();
+            Container.Bind<MenuScreens>().FromInstance(_menuScreens);
+            Container.Bind<FollowingCamera>().FromInstance(_followingCamera);
             
             Container
                 .BindFactory<Player, Player.Factory>()
@@ -56,26 +54,21 @@ namespace Game {
                 .BindInterfacesAndSelfTo<EnemySpawner>()
                 .AsSingle()
                 .NonLazy();
-            
-            InstallGsm();
         }
-
-        private void InstallGsm()
-        {
-            Container
-                .Bind<Dictionary<System.Type, IGameState>>()
-                .FromMethod(ctx => new()
-                {
-                    { typeof(BootstrapState), Container.Instantiate<BootstrapState>() },
-                })
-                .WhenInjectedInto<GameSM>();
-            Container.Bind<GameSM>().AsSingle();
-        }
-
+        
         public override void Start()
         {
             base.Start();
-            Container.Resolve<GameSM>().Enter<BootstrapState>();
+
+            var gameSm = Container.Resolve<GameSM>();
+            gameSm.SetStates(new()
+            {
+                { typeof(BootstrapState), Container.Instantiate<BootstrapState>() },
+                { typeof(PauseState), Container.Instantiate<PauseState>() },
+                { typeof(PlayState), Container.Instantiate<PlayState>() },
+            });
+            
+            gameSm.Enter<BootstrapState>();
         }
     }
 }

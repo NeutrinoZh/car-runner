@@ -8,7 +8,10 @@ namespace Game
         public bool Follow { get; set; }
         
         [SerializeField] private Vector3 _cameraOffset;
+        [SerializeField] private Quaternion _targetRotation;
+        
         [SerializeField] private float _cameraSpeed;
+        [SerializeField] private float _rotationSpeed;
         
         private void Update()
         {
@@ -22,6 +25,11 @@ namespace Game
                 );
             
             transform.position = position;   
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                _targetRotation,
+                _rotationSpeed * Time.deltaTime
+            );
         }
     }
 }

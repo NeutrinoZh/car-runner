@@ -12,6 +12,7 @@ namespace Game
         private readonly Camera _camera;
         private readonly BulletPool _bulletPool;
         private readonly PlayerModel _playerModel;
+        private readonly GameSM _gameSm;
 
         private Vector3 _direction;
         
@@ -19,6 +20,7 @@ namespace Game
             IPlayerInput playerInput,
             BulletPool bulletPool,
             PlayerModel playerModel,
+            GameSM gameSm,
             [Inject(Id = Player.TurretTransformId)] Transform turret
         )
         {
@@ -26,7 +28,8 @@ namespace Game
             _playerModel = playerModel;
             _bulletPool = bulletPool;
             _camera = Camera.main;
-            _turret = turret;           
+            _turret = turret;        
+            _gameSm = gameSm;
         }
         
         public void Initialize()
@@ -58,6 +61,12 @@ namespace Game
 
             while (_playerModel.IsAlive)
             {
+                if (!_gameSm.IsState<PlayState>())
+                {
+                    await Task.Delay(100);
+                    continue;
+                }
+
                 float delay = 100;
                 
                 if (_playerInput.IsShooting)
