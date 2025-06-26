@@ -18,6 +18,9 @@ namespace Game
         
         public void Tick()
         {
+            if (!_playerModel.IsAlive)
+                return;
+            
             _transform.position += Time.deltaTime * _playerModel.Speed * k_direction;
         }
     }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AngrySpeed>k__BackingField: 7
   <IdleSpeed>k__BackingField: 1
-  <MaxHealth>k__BackingField: 10
-  <AttackRate>k__BackingField: 0.5
+  <MaxHealth>k__BackingField: 100
+  <Damage>k__BackingField: 4

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.VFX;
-using Zenject;
 
 namespace Game
 {
@@ -25,8 +24,20 @@ namespace Game
             var normal = _transform.position - other.position;
             _visualEffect.SetVector3(k_directionParamId, normal);
             _visualEffect.Play();
-            
+
             if (other.TryGetComponent(out Player player))
+            {
+                player.Damage(_model.Damage);
+                _model.Health = 0;
+            }
+
+            if (other.TryGetComponent(out Bullet bullet))
+            {
+                _model.Health -= bullet.Damage;
+                bullet.Destroy();
+            }
+            
+            if (_model.Health <= 0) 
                 _model.IsAlive = false;
         }
     }

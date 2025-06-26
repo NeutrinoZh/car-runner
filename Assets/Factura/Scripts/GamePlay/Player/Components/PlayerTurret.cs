@@ -36,6 +36,9 @@ namespace Game
         
         public void Tick()
         {
+            if (!_playerModel.IsAlive)
+                return;
+            
             var screenDirection = new Vector3(_playerInput.Direction.x, _playerInput.Direction.y, 15f);
             var worldPosition = _camera.ScreenToWorldPoint(screenDirection);
             
@@ -53,13 +56,13 @@ namespace Game
         {
             await Task.Delay(100);
 
-            while (true)
+            while (_playerModel.IsAlive)
             {
                 float delay = 100;
                 
                 if (_playerInput.IsShooting)
                 {
-                    _bulletPool.Spawn(_turret.position, _direction.normalized);   
+                    _bulletPool.Spawn(_turret.position, _turret.forward);   
                     delay = Mathf.Clamp(_playerModel.FireDelay, 100f, 2000f);
                 }
                     

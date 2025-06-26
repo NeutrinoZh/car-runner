@@ -39,6 +39,8 @@ namespace Game
                 OnChangeSpeed?.Invoke(_speed);
             }
         }
+        
+        public float Damage => _config.Damage;
 
         public EnemyModel(EnemyConfig config)
         {

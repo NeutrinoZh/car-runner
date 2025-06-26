@@ -20,6 +20,7 @@ namespace Game
             Container.BindInterfacesAndSelfTo<PlayerModel>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerMovement>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerTurret>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<PlayerAnimation>().AsSingle().NonLazy();
             
             Container.Bind<Player>().AsSingle();
         }

@@ -29,6 +29,7 @@ namespace Game
         }
 
         public float FireDelay => _config.FireDelay;
+        public bool IsAlive => _health > 0;
         
         public PlayerModel(PlayerConfig config)
         {
