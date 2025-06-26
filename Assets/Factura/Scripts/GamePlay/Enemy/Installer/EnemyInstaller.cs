@@ -28,11 +28,5 @@ namespace Game
                 .WhenInjectedInto<EnemySM>();
             Container.BindInterfacesAndSelfTo<EnemySM>().AsSingle().NonLazy();
         }
-
-        public override void Start()
-        {
-            base.Start();
-            Container.Resolve<EnemySM>().Enter<EnemyIdle>();
-        }
     }
 }

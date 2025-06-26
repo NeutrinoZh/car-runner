@@ -22,25 +22,18 @@ namespace Game.Input
 
         private void Start()
         {
-            _controls.PlayerInput.Direction.performed += PerformedDirection;
-            _controls.PlayerInput.Direction.canceled += CanceledDirection;
+            _controls.Enable();
         }
 
         private void OnDestroy()
         {
-            _controls.PlayerInput.Direction.performed -= PerformedDirection;
-            _controls.PlayerInput.Direction.canceled -= CanceledDirection;
+            _controls.Disable();
         }
-
-        private void PerformedDirection(InputAction.CallbackContext callbackContext)
+        
+        private void Update()
         {
-            _tapped = true;
-            _tapPosition = callbackContext.ReadValue<Vector2>();
-        }
-
-        private void CanceledDirection(InputAction.CallbackContext callbackContext)
-        {
-            _tapped = false;
+            _tapPosition = _controls.PlayerInput.Direction.ReadValue<Vector2>();
+            _tapped = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count > 0;
         }
     }
 }

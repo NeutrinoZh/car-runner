@@ -7,6 +7,6 @@ namespace Game
     {
         [field: SerializeField] public float BaseSpeed { get; private set; }
         [field: SerializeField] public float MaxHealth { get; private set; }
-        [field: SerializeField] public float FireRate { get; private set; }
+        [field: SerializeField] public float FireDelay { get; private set; }
     }
 }

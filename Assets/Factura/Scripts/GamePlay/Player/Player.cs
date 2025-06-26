@@ -8,5 +8,7 @@ namespace Game
         public class Factory : PlaceholderFactory<Player> { }
         
         public const string SpawnTransformId = "PlayerSpawn";
+        public const string PlayerTransformId = "Player";
+        public const string TurretTransformId = "PlayerTurret";
     }
 }

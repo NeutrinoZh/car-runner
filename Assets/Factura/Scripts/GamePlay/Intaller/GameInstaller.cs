@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -6,6 +5,12 @@ using Zenject;
 namespace Game {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private Transform _gamePlayGroup;
+        [SerializeField] private Transform _enemyGroup;
+        [SerializeField] private Transform _bulletGroup;
+        
+        [SerializeField] private Bullet _bulletPrefab;
+        [SerializeField] private Enemy _enemyPrefab;
         [SerializeField] private Player _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private FollowingCamera _followingCamera;
@@ -28,12 +33,29 @@ namespace Game {
             Container
                 .BindFactory<Player, Player.Factory>()
                 .FromComponentInNewPrefab(_playerPrefab)
-                .UnderTransformGroup(TransformGroups.GamePlayGroup);
+                .UnderTransform(_gamePlayGroup);
 
             Container
                 .Bind<Transform>()
                 .WithId(Player.SpawnTransformId)
                 .FromInstance(_playerSpawnPoint);
+
+            Container
+                .BindMemoryPool<Enemy, EnemyPool>()
+                .WithInitialSize(100)
+                .FromComponentInNewPrefab(_enemyPrefab)
+                .UnderTransform(_enemyGroup);
+            
+            Container
+                .BindMemoryPool<Bullet, BulletPool>()
+                .WithInitialSize(30)
+                .FromComponentInNewPrefab(_bulletPrefab)
+                .UnderTransform(_bulletGroup);
+            
+            Container
+                .BindInterfacesAndSelfTo<EnemySpawner>()
+                .AsSingle()
+                .NonLazy();
             
             InstallGsm();
         }

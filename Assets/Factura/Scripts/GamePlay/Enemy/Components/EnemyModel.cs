@@ -43,9 +43,14 @@ namespace Game
         public EnemyModel(EnemyConfig config)
         {
             _config = config;
-            
-            Speed = config.IdleSpeed;
-            Health = config.MaxHealth;
+            Reset();
+        }
+
+        public void Reset()
+        {
+            IsAlive = true;
+            Speed = _config.IdleSpeed;
+            Health = _config.MaxHealth;
         }
         
         private readonly EnemyConfig _config;

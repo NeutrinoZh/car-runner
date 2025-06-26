@@ -28,6 +28,8 @@ namespace Game
             }
         }
 
+        public float FireDelay => _config.FireDelay;
+        
         public PlayerModel(PlayerConfig config)
         {
             _config = config;
