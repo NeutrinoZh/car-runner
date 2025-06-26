@@ -78,6 +78,7 @@ namespace Game
         {
             gameObject.SetActive(false);
             _pool.Despawn(this);
+            _pool.OnDie?.Invoke();
         }
     }
 }

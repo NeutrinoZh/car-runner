@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
@@ -18,6 +19,7 @@ namespace Game
         public void Enter()
         {
             _menuScreens.OnStart += StartHandle;
+            _menuScreens.OnRestart += RestartHandle;
             _ = PauseRoutine();
         }
 
@@ -25,12 +27,18 @@ namespace Game
         {
             Time.timeScale = 1;
             _menuScreens.OnStart -= StartHandle;
+            _menuScreens.OnRestart -= RestartHandle;
             _menuScreens.HideAll();
         }
 
         private void StartHandle()
         {
             GameSM.Enter<PlayState>();
+        }
+
+        private void RestartHandle()
+        {
+            SceneManager.LoadScene(0);
         }
         
         private async Task PauseRoutine()

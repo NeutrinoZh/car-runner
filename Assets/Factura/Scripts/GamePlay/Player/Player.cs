@@ -11,6 +11,7 @@ namespace Game
         public const string PlayerTransformId = "Player";
         public const string TurretTransformId = "PlayerTurret";
 
+        public PlayerModel PlayerModel => _playerModel;
         private PlayerModel _playerModel;
         
         [Inject]

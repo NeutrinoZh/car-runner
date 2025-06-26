@@ -65,7 +65,7 @@ namespace Game {
             {
                 { typeof(BootstrapState), Container.Instantiate<BootstrapState>() },
                 { typeof(PauseState), Container.Instantiate<PauseState>() },
-                { typeof(PlayState), Container.Instantiate<PlayState>() },
+                { typeof(PlayState), Container.Instantiate<PlayState>() }
             });
             
             gameSm.Enter<BootstrapState>();

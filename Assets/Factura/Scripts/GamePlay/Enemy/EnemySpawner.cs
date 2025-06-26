@@ -6,15 +6,17 @@ namespace Game
 {
     public class EnemySpawner : IInitializable
     {
-        private static readonly Vector3 k_offset = new(0f, 0f, -50);
+        public const int NumberOfEnemy = 60;
         
-        private const float k_initSpawnInterval = 10000;
+        private static readonly Vector3 k_offset = new(0f, 0f, -50);
+
+        private const float k_initSpawnInterval = 1000;
         private const float k_miniumSpawnInterval = 50;
         private const float k_decreaseFrequencyInterval = 1000;
         private const float k_decreaseMultiplier = 0.95f;
         
         private float _spawnInterval;
-        
+        private int _spawnCount;
         private bool _running;
         
         private readonly EnemyPool _pool;
@@ -69,6 +71,9 @@ namespace Game
                     continue;
                 }
 
+                if (_spawnCount >= NumberOfEnemy)
+                    break;
+                
                 Spawn();
                 await Task.Delay((int)(_spawnInterval * Time.timeScale));
             }
@@ -78,9 +83,10 @@ namespace Game
         {
             if (!_playerList.MainPlayer)
                 return;
-            
+
             var position = _playerList.MainPlayer.transform.position + k_offset;
             _pool.Spawn(position);
+            _spawnCount += 1;
         }
     }
 }

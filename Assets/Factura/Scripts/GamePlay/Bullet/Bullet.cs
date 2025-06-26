@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using Zenject;
 
 namespace Game
@@ -7,6 +8,7 @@ namespace Game
     {
         [SerializeField] private float _speed;
         [SerializeField] private float _damage;
+        [SerializeField] private float _lifetime;
         
         public float Damage => _damage;
         
@@ -24,6 +26,8 @@ namespace Game
             gameObject.SetActive(true);
             _direction = direction;
             transform.position = position;
+
+            _ = DestroyRoutine();
         }
 
         public void Destroy()
@@ -35,6 +39,13 @@ namespace Game
         private void Update()
         {
             transform.position += _direction * (_speed * Time.deltaTime);
+        }
+
+        private async Task DestroyRoutine()
+        {
+            await Task.Delay((int)(_lifetime * Time.timeScale));
+            if (gameObject.activeInHierarchy)
+                Destroy();
         }
     }
 }
